@@ -15,14 +15,14 @@ export default function AnalyticsTable({ usersData }: { usersData: User[] }) {
 
     const filteredData = useMemo(() => {
         return usersData.filter((user) =>
-            user.name.toLowerCase().includes(search.toLowerCase())
+            (user.name ?? '').toLowerCase().includes(search.toLowerCase())
         );
     }, [search]);
 
     const sortedData = useMemo(() => {
         return [...filteredData].sort((a, b) => {
-            if (a[sortField] < b[sortField]) return sortOrder === "asc" ? -1 : 1;
-            if (a[sortField] > b[sortField]) return sortOrder === "asc" ? 1 : -1;
+            if ((a[sortField] ?? '') < (b[sortField] ?? '')) return sortOrder === "asc" ? -1 : 1;
+            if ((a[sortField] ?? '') > (b[sortField] ?? '')) return sortOrder === "asc" ? 1 : -1;
             return 0;
         });
     }, [filteredData, sortField, sortOrder]);
