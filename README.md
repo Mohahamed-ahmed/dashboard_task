@@ -15,6 +15,7 @@ This project is a **Next.js Dashboard Application** featuring **Firebase Authent
 * **Dashboard**
 
   * Display logged-in user details using redux
+  * Responsive web page for all screens
 
 * **Data Table**
 
