@@ -103,19 +103,19 @@ export default function MyChart({ usersData }: { usersData: User[] }) {
         <div className="bg-green-50 p-3 sm:p-4 rounded-lg border border-green-200">
           <div className="text-green-600 text-xs sm:text-sm font-medium">Average Age</div>
           <div className="text-lg sm:text-2xl font-bold text-green-900">
-            {Math.round(usersData.reduce((sum, user) => sum + user.age, 0) / usersData.length)}
+            {Math.round(usersData.reduce((sum, user) => sum + (user.age ?? Infinity), 0) / usersData.length)}
           </div>
         </div>
         <div className="bg-purple-50 p-3 sm:p-4 rounded-lg border border-purple-200">
           <div className="text-purple-600 text-xs sm:text-sm font-medium">Youngest</div>
           <div className="text-lg sm:text-2xl font-bold text-purple-900">
-            {Math.min(...usersData.map(user => user.age))}
+            {Math.min(...usersData.map(user => user.age ?? Infinity))}
           </div>
         </div>
         <div className="bg-orange-50 p-3 sm:p-4 rounded-lg border border-orange-200">
           <div className="text-orange-600 text-xs sm:text-sm font-medium">Oldest</div>
           <div className="text-lg sm:text-2xl font-bold text-orange-900">
-            {Math.max(...usersData.map(user => user.age))}
+            {Math.max(...usersData.map(user => user.age ?? -Infinity))}
           </div>
         </div>
       </div>

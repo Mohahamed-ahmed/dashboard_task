@@ -6,10 +6,16 @@ import React from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from "@/lib/firebase"
 import { useRouter } from "next/navigation";
+import { AppDispatch } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/features/auth/authSlice";
+import { UserState } from "@/features/auth/authSlice";
 
-
+import Link from "next/link";
 
 export default function LoginPage() {
+
+    const dispatch = useDispatch<AppDispatch>();
 
     const router = useRouter();
 
@@ -21,18 +27,21 @@ export default function LoginPage() {
 		e.preventDefault();
         signInWithEmailAndPassword(auth, email.current, password.current)
         .then(async (userCredential) => {
-            
-            const user = userCredential.user;
+
+			const user = userCredential.user;
             await user.reload();
             const updatedUser = auth.currentUser;
-
             console.log("User logged in:", updatedUser);
-
+            const userData : UserState = {
+                uid: updatedUser?.uid ?? null,
+                email: updatedUser?.email ?? null,
+                displayName: updatedUser?.displayName ?? null
+            };
+            dispatch(setUser(userData));
             router.push("/");
-
         }).catch((error) => {
-            console.error("Error logging in:", error.message);
-        })
+			console.error("Login Error:", error.message);
+		})
 	};
 
 	return (
@@ -71,6 +80,9 @@ export default function LoginPage() {
                         Login
 					</Button>
 				</form>
+                 <Link href="/auth/sign-up" className="text-sm text-blue-600 hover:underline">
+                    Don't have an account? Sign up
+                </Link>
 			</div>
 		</div>
 	);

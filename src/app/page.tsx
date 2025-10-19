@@ -1,17 +1,16 @@
 "use client";
 
-// import { useSelector } from "react-redux";
-// import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 import AnalyticsTable from "@/components/pages/analytics-table";
 import MyChart from "@/components/pages/chart";
-// import { User } from "./analytics/page";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export type User = {
-  id: number;
-  name: string;
-  email: string;
-  age: number;
+  id: number | string | null;
+  name: string | null;
+  email: string | null;
+  age: number | null;
 };
 
 const usersData: User[] = [
@@ -25,13 +24,12 @@ const usersData: User[] = [
 ];
 
 export default function Home() {
-  // const router = useRouter();
 
-  // const user = useSelector((state: RootState) => state.auth);
+  const user = useSelector((state: RootState) => state.auth);
 
-  // if(!user.displayName) {
-  //   router.push("/auth/sign-up");
-  // }
+  if(!user.displayName) {
+    redirect('/auth/login');
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 overflow-x-hidden">
@@ -44,7 +42,7 @@ export default function Home() {
               </h1>
               <p className="mt-1 text-sm text-gray-600">
                 Welcome back, <span className="font-semibold text-blue-600">
-                  {/* {user?.displayName || 'Guest User'} */}
+                  {user?.displayName || 'Guest User'}
                 </span>
               </p>
             </div>
